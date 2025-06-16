@@ -30,8 +30,13 @@ console.log(ipAdresim);
 */
 
 async function getData() {
-  /* kodlar buraya */
+  
+  const ip = await ipAdresimiAl();
+  const response = await axios.get(`https://apis.ergineer.com/ipgeoapi/${ip}`);
+ 
+  return response.data;
 }
+
 
 /*
 	ADIM 2: Alınan veriyi sayfada gösterecek componentı oluşturmak
@@ -54,8 +59,61 @@ async function getData() {
   </div>
 */
 
-function cardOlustur(/* kodlar buraya */) {
-  /* kodlar buraya */
+function cardOlustur(data) {
+  const card = document.createElement("div");
+  card.classList.add("card");
+
+  
+  const flagImg = document.createElement("img");
+  flagImg.src = `https://flaglog.com/codes/standardized-rectangle-120px/${data.ülkeKodu}.png`;
+  card.appendChild(flagImg);
+
+  
+  const cardInfo = document.createElement("div");
+  cardInfo.classList.add("card-info");
+
+  
+  const ipElem = document.createElement("h3");
+  ipElem.classList.add("ip");
+  ipElem.textContent = data.sorgu;
+  cardInfo.appendChild(ipElem);
+
+  
+  const ulkeElem = document.createElement("p");
+  ulkeElem.classList.add("ulke");
+  ulkeElem.textContent = `${data.ülke} (${data.ülkeKodu})`;
+  cardInfo.appendChild(ulkeElem);
+
+  
+  const enlemBoylamElem = document.createElement("p");
+  enlemBoylamElem.textContent = `Enlem: ${data.enlem} - Boylam: ${data.boylam}`;
+  cardInfo.appendChild(enlemBoylamElem);
+
+  
+  const sehirElem = document.createElement("p");
+  sehirElem.textContent = `Şehir: ${data.bölgeAdı}`;
+  cardInfo.appendChild(sehirElem);
+
+  
+  const saatDilimiElem = document.createElement("p");
+  saatDilimiElem.textContent = `Saat dilimi: ${data.saatdilimi}`;
+  cardInfo.appendChild(saatDilimiElem);
+
+  
+  const paraBirimiElem = document.createElement("p");
+  paraBirimiElem.textContent = `Para birimi: ${data.parabirimi}`;
+  cardInfo.appendChild(paraBirimiElem);
+
+  
+  const ispElem = document.createElement("p");
+  ispElem.textContent = `ISP: ${data.isp}`;
+  cardInfo.appendChild(ispElem);
+
+  
+  card.appendChild(cardInfo);
+
+  
+  return card;
 }
 
 // Buradan sonrasını değiştirmeyin, burası yazdığınız kodu sayfaya uyguluyor.
